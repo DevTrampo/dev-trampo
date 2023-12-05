@@ -5,7 +5,7 @@ exports.shorthands = undefined;
 exports.up = pgm => {
   pgm.sql(
     `CREATE TABLE users (
-      user_id SERIAL PRIMAY KEY,
+      user_id SERIAL PRIMARY KEY,
       name VARCHAR(20),
       last_name VARCHAR(20),
       username VARCHAR(20),
@@ -26,7 +26,7 @@ exports.up = pgm => {
 	        REFERENCES users(user_id),
       CONSTRAINT fk_user_follower
         FOREIGN KEY(follower_id) 
-	        REFERENCES users(user_id),
+	        REFERENCES users(user_id)
     );`,
   );
 };
