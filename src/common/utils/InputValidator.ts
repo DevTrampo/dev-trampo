@@ -67,6 +67,14 @@ export default class InputValidator {
     }
   }
 
+  public static validateDate(dateString: string): boolean {
+    const date = new Date(dateString);
+    const isValidDate = !isNaN(date.getTime());
+    if (!isValidDate) {
+      throw new AppException('Data inválida');
+    }
+  }
+
   public static validateCPFAndCNPJ(document: string): void {
     if (!document) {
       throw new AppException('O documento de identificação (CPF/CNPJ) é obrigatório');
