@@ -4,7 +4,7 @@ import 'express-async-errors';
 import cors from 'cors';
 import { HttpStatus } from '@common/utils/systemConstants';
 import AppException from '@common/exceptions/AppException';
-import routes from '@common/http/routes';
+import routes from '@routes/index';
 import cookieParser from 'cookie-parser';
 
 const app = express();
