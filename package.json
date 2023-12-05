@@ -4,14 +4,41 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node build/server.js",
+    "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/server.ts",
+    "build": "babel src --extension \".js,.ts\" --out-dir build --copy-files",
+    "lint": "eslint . --ext .ts",
+    "lint-fix": "eslit . --ext .ts --fix",
+    "test": "jest",
+    "migrate": "node-pg-migrate -f migrate-config.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.3",
+    "@types/node-pg-migrate": "^2.3.1",
+    "@types/pg": "^8.10.9",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0",
     "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
     "tsc": "^2.0.4",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.2"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "node-pg-migrate": "^6.2.2",
+    "pg": "^8.11.3"
   }
 }
