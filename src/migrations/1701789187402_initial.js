@@ -21,6 +21,8 @@ exports.up = pgm => {
     CREATE TABLE followers (
       user_id INT,
       follower_id INT,
+      creation_date DATE,
+      update_date DATE,
       CONSTRAINT fk_user
         FOREIGN KEY(user_id) 
 	        REFERENCES users(user_id),
@@ -34,8 +36,8 @@ exports.up = pgm => {
 exports.down = pgm => {
   pgm.sql(
     `
-    DROP TABLE users;
     DROP TABLE followers;
+    DROP TABLE users;
     `,
   );
 };
