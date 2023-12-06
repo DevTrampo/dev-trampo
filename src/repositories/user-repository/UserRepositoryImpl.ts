@@ -7,6 +7,72 @@ import IUpdateUserDTO from './dtos/IUpdateUserDTO';
 import { generateOrderByClauses } from '@common/utils/helpers';
 
 export default class UserRepositoryImpl implements IUserRepository {
+  async getUserByMail(mail: string): Promise<IUser> {
+    const client = await database.connect();
+    try {
+      const result = await client.query(
+        `SELECT * FROM users 
+        WHERE mail = $1
+        `,
+        [mail],
+      );
+
+      if (result.rows[0]) {
+        const user = result.rows[0];
+        return {
+          userId: user.user_id,
+          name: user.name,
+          lastName: user.last_name,
+          username: user.username,
+          password: user.password,
+          mail: user.mail,
+          title: user.title,
+          about: user.about,
+          birthday: user.birthday,
+          creationDate: user.creationDate,
+          updateDate: user.update_date,
+        };
+      } else {
+        return null;
+      }
+    } finally {
+      client.release();
+    }
+  }
+
+  async getUserByUsername(username: string): Promise<IUser> {
+    const client = await database.connect();
+    try {
+      const result = await client.query(
+        `SELECT * FROM users 
+        WHERE username = $1
+        `,
+        [username],
+      );
+
+      if (result.rows[0]) {
+        const user = result.rows[0];
+        return {
+          userId: user.user_id,
+          name: user.name,
+          lastName: user.last_name,
+          username: user.username,
+          password: user.password,
+          mail: user.mail,
+          title: user.title,
+          about: user.about,
+          birthday: user.birthday,
+          creationDate: user.creationDate,
+          updateDate: user.update_date,
+        };
+      } else {
+        return null;
+      }
+    } finally {
+      client.release();
+    }
+  }
+
   async getAllUsers(paginationParams: IPaginationParams): Promise<IUser[]> {
     const client = await database.connect();
     const orderByClauses = generateOrderByClauses(paginationParams.orderBy);
@@ -22,7 +88,7 @@ export default class UserRepositoryImpl implements IUserRepository {
         const users: IUser[] = [];
         result.rows.forEach(user => {
           users.push({
-            userId: user.userId,
+            userId: user.user_id,
             username: user.username,
             mail: user.mail,
             password: user.password,
@@ -114,7 +180,7 @@ export default class UserRepositoryImpl implements IUserRepository {
           about = $7,
           birthday = $8,
           update_date = $9
-        WHERE id = $10
+        WHERE user_id = $10
         `,
         [
           user.name,
@@ -139,7 +205,7 @@ export default class UserRepositoryImpl implements IUserRepository {
     try {
       await client.query(
         `DELETE FROM users 
-        WHERE id = $1`,
+        WHERE user_id = $1`,
         [userId],
       );
     } finally {
@@ -157,7 +223,7 @@ export default class UserRepositoryImpl implements IUserRepository {
     }
   }
 
-  async existsByMail(email: string): Promise<boolean> {
+  async existsByMail(mail: string): Promise<boolean> {
     const client = await database.connect();
     try {
       const result = await client.query(
@@ -166,7 +232,7 @@ export default class UserRepositoryImpl implements IUserRepository {
           WHERE mail = $1
         )
         `,
-        [email],
+        [mail],
       );
       return result.rows[0].exists;
     } finally {
